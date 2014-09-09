@@ -171,7 +171,7 @@ def main():
 				bestMK  = MK
 				break
 
-			if all([ b.node[i]['keys'] <= b.out_degree(i) for i in xrange(n) ]):
+			if all([ b.node[i]['keys'] >= b.in_degree(i) for i in xrange(n) ]):
 				print 'All keys used. Improvement impossible'
 				break
 
