@@ -33,7 +33,7 @@ def branch_bound(root,lo,hi):
 
     states = np.array([root])
 
-    print 'Planning agent movements:'
+#    print 'Planning agent movements:'
 
     # This is only for the printout
     counter = 0
@@ -53,7 +53,7 @@ def branch_bound(root,lo,hi):
         bestlo = np.argsort(branchvalues)[:lo]
         states = branches[bestlo]
 
-        print counter
+#        print counter
         counter += 1
 
     return states[0],states[0].value
