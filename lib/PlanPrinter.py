@@ -42,10 +42,24 @@ class PlanPrinter:
 
         # keyneeds[i,j] = number of keys agent i needs for portal j
         self.agentkeyneeds = np.zeros([self.nagents,self.n],dtype=int)
+        #
+        self.agentdists = np.zeros(self.nagents)
+        self.agentexps = np.zeros(self.nagents)
+        self.totaldist = 0
         for i in xrange(self.nagents):
-            for e in self.movements[i]:
+            movie = self.movements[i]
+            curpos = self.a.node[self.orderedEdges[movie[0]][0]]['geo']
+            for e in movie:
                 p,q = self.orderedEdges[e]
                 self.agentkeyneeds[i][q] += 1
+                
+                newpos = self.a.node[p]['geo']
+                dist = geometry.sphereDist(curpos,newpos)
+                self.agentdists[i] += dist
+                self.totaldist += dist
+                curpos = newpos
+
+                self.agentexps[i] += 313 + 1250*len(self.a.edge[p][q]['fields'])
 
         self.names = np.array([a.node[i]['name'] for i in xrange(self.n)])
         # The alphabetical order
