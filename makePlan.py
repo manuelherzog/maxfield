@@ -154,15 +154,22 @@ def main():
 
             if weightedlack < bestlack:
                 sinceImprove = 0
-                print 'IMPROVEMENT:\n\ttotal: %s\n\tmax:   %s\n\tweighted: %s'%\
-                       (TK,MK,weightedlack)
-                bestgraph = b
+                print '(%3d,%3d)\tIMPROVEMENT:\ttotal: %s\tmax:   %s\tweighted: %s\tbest: %s'%\
+                       (sinceImprove,EXTRA_SAMPLES,TK,MK,weightedlack,bestlack)
+                bestgraph = b.copy()
                 bestlack  = weightedlack
                 bestTK  = TK
                 bestMK  = MK
+                for t in b.triangulation:
+                    t.markEdgesWithFields()
+                PP = PlanPrinter.PlanPrinter(b,output_directory,nagents,COLOR)
+                PP.keyPrep()
+                PP.agentKeys()
+                PP.planMap()
+                PP.agentLinks()
             else:
-                print 'this time:\n\ttotal: %s\n\tmax:   %s\n\tweighted: %s'%\
-                       (TK,MK,weightedlack)
+                print '(%3d,%3d)\tthis time:\ttotal: %s\tmax:   %s\tweighted: %s\tbest: %s'%\
+                       (sinceImprove,EXTRA_SAMPLES,TK,MK,weightedlack,bestlack)
 
             if weightedlack == 0:
                 print 'KEY PERFECTION'
@@ -175,7 +182,7 @@ def main():
                 print 'All keys used. Improvement impossible'
                 break
 
-            print '%s tries since improvement'%sinceImprove
+#            print '%s tries since improvement'%sinceImprove
 
         if bestgraph == None:
             print 'EXITING RANDOMIZATION LOOP WITHOUT SOLUTION!'
@@ -187,10 +194,10 @@ def main():
         a = bestgraph
 
         # Attach to each edge a list of fields that it completes
-        for t in a.triangulation:
-            t.markEdgesWithFields()
+    #    for t in a.triangulation:
+    #        t.markEdgesWithFields()
 
-        agentOrder.improveEdgeOrder(a)
+    #    agentOrder.improveEdgeOrder(a)
 
         with open(output_directory+output_file,'w') as fout:
             pickle.dump(a,fout)
