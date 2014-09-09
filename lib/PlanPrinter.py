@@ -251,13 +251,13 @@ class PlanPrinter:
         # Total distance traveled by each agent
         agentdists = np.zeros(self.nagents)
         # Total experience for each agent
-        agentexps  = np.zeros(self.nagents,dtype=int)
+        agentexps  = np.zeros(self.nagents)
 
         for i in range(self.nagents):
             movie = self.movements[i]
             # first portal in first link
             curpos = self.a.node[self.orderedEdges[movie[0]][0]]['geo']
-            for e in movie[1:]:
+            for e in movie[0:]:
                 p,q = self.orderedEdges[e]
                 newpos = self.a.node[p]['geo']
                 dist = geometry.sphereDist(curpos,newpos)
